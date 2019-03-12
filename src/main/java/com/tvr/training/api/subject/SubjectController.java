@@ -1,15 +1,22 @@
 package com.tvr.training.api.subject;
 
-import com.tvr.training.api.course.CourseRepository;
-import com.tvr.training.api.exception.ResourceNotFoundException;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
-import javax.validation.Valid;
+import com.tvr.training.api.course.CourseRepository;
+import com.tvr.training.api.exception.ResourceNotFoundException;
 
 @RestController
 public class SubjectController {
@@ -24,8 +31,18 @@ public class SubjectController {
     public List<Subject> getAllsubjects( ) {
         return subjectRepository.findAll( );
     }
-
     
+    @GetMapping("/courses/{courseId}/subjects/{subjectId}")
+    public Optional<Subject> getsubjects(@PathVariable (value = "courseId") Long courseId,
+    		@PathVariable (value = "subjectId") Long subjectId) {
+        return subjectRepository.findByIdAndCourseId(courseId,subjectId);
+    }
+    
+    @GetMapping("/courses/{courseId}/subjects")
+    public List<Subject> getSubjectsByCourseId(@PathVariable (value = "courseId") Long courseId) {
+        return subjectRepository.findByCourseId(courseId);
+    }
+       
     @PostMapping("/courses/{courseId}/subjects")
     public Subject createSubject(@PathVariable (value = "courseId") Long courseId,
                                  @Valid @RequestBody Subject subject) {
