@@ -1,6 +1,5 @@
-package com.example.jpa.repository;
+package com.tvr.training.api.topic;
 
-import com.example.jpa.model.Topic;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

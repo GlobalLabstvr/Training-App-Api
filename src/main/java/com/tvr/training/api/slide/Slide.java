@@ -1,4 +1,4 @@
-package com.example.jpa.model;
+package com.tvr.training.api.slide;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,8 +8,8 @@ import javax.validation.constraints.Size;
  * Created by rajeevkumarsingh on 21/11/17.
  */
 @Entity
-@Table(name = "masters")
-public class Master  {
+@Table(name = "slides")
+public class Slide  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

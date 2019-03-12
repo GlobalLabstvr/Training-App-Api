@@ -1,4 +1,4 @@
-package com.example.jpa.model;
+package com.tvr.training.api.student;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

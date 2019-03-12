@@ -1,10 +1,8 @@
-package com.example.jpa.controller;
+package com.tvr.training.api.playlist;
 
-import com.example.jpa.exception.ResourceNotFoundException;
-import com.example.jpa.model.Playlist;
-import com.example.jpa.model.Subject;
-import com.example.jpa.repository.PlaylistRepository;
-import com.example.jpa.repository.TopicRepository;
+import com.tvr.training.api.exception.ResourceNotFoundException;
+import com.tvr.training.api.topic.TopicRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

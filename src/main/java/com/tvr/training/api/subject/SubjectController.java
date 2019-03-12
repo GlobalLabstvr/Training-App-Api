@@ -1,9 +1,7 @@
-package com.example.jpa.controller;
+package com.tvr.training.api.subject;
 
-import com.example.jpa.exception.ResourceNotFoundException;
-import com.example.jpa.model.Subject;
-import com.example.jpa.repository.SubjectRepository;
 import com.tvr.training.api.course.CourseRepository;
+import com.tvr.training.api.exception.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

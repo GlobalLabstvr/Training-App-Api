@@ -1,4 +1,4 @@
-package com.example.jpa.model;
+package com.tvr.training.api.subject;
 
 import com.fasterxml.jackson.annotation.*;
 import com.tvr.training.api.course.Course;

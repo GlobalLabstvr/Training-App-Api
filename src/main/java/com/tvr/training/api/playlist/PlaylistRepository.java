@@ -1,15 +1,10 @@
-package com.example.jpa.repository;
-
-
-import com.example.jpa.model.Playlist;
-import com.example.jpa.model.Subject;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+package com.tvr.training.api.playlist;
 
 
 import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 
 /**

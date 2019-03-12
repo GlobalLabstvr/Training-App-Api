@@ -1,4 +1,4 @@
-package com.example.jpa;
+package com.tvr.training;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,9 +1,4 @@
-
-  package com.example.jpa.repository;
-
-
-import com.example.jpa.model.Subject;
-
+package com.tvr.training.api.subject;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
