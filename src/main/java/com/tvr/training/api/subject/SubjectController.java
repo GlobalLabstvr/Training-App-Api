@@ -33,9 +33,10 @@ public class SubjectController {
     }
     
     @GetMapping("/courses/{courseId}/subjects/{subjectId}")
-    public Optional<Subject> getsubjects(@PathVariable (value = "courseId") Long courseId,
+    public Subject getsubjects(@PathVariable (value = "courseId") Long courseId,
     		@PathVariable (value = "subjectId") Long subjectId) {
-        return subjectRepository.findByIdAndCourseId(courseId,subjectId);
+    	System.out.println("getSubj");
+        return subjectRepository.findByIdCourseIdAndIdSubjectId(courseId,subjectId);
     }
     
     @GetMapping("/courses/{courseId}/subjects")
@@ -45,18 +46,17 @@ public class SubjectController {
        
     @PostMapping("/courses/{courseId}/subjects/{subjectId}")
     public Subject createSubject(@PathVariable (value = "courseId") Long courseId,
-    								@PathVariable (value = "subjectId") Long subjectId,
+    							 @PathVariable (value = "subjectId") Long subjectId,	
                                  @Valid @RequestBody Subject subject) {
         return courseRepository.findById(courseId).map(course -> {
-        	SubjectId subId = new SubjectId(courseId,subjectId);
-        	subject.setId(subId);
-            subject.setCourse(course);
-          
+        	SubjectId id = new SubjectId(courseId,subjectId);
+        	subject.setId(id);
+            subject.setCourse(course);         
             return subjectRepository.save(subject);
         }).orElseThrow(() -> new ResourceNotFoundException("courseId " + courseId + " not found"));
     }
 
-    @PutMapping("/courses/{courseId}/subjects/{subjectId}")
+  /*  @PutMapping("/courses/{courseId}/subjects/{subjectId}")
     public Subject updateSubject(@PathVariable (value = "courseId") Long courseId,
                                  @PathVariable (value = "subjectId") Long subjectId,
                                  @Valid @RequestBody Subject subjectRequest) {
@@ -70,13 +70,16 @@ public class SubjectController {
             return subjectRepository.save(subject);
         }).orElseThrow(() -> new ResourceNotFoundException("SubjectId " + subjectId + "not found"));
     }
-
+*/
     @DeleteMapping("/courses/{courseId}/subjects/{subjectId}")
-    public ResponseEntity<?> deleteSubject(@PathVariable (value = "courseId") Long courseId,
+    public ResponseEntity<Subject> deleteSubject(@PathVariable (value = "courseId") Long courseId,
                               @PathVariable (value = "subjectId") Long subjectId) {
-        return subjectRepository.findByIdAndCourseId(subjectId, courseId).map(subject -> {
+        Subject subject = subjectRepository.findByIdCourseIdAndIdSubjectId(courseId,subjectId);
+        if(subject!=null)
+        {
             subjectRepository.delete(subject);
             return ResponseEntity.ok().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Subject not found with id " + subjectId + " and courseId " + courseId));
+        }
+        else { throw new ResourceNotFoundException("Subject not found with id " + subjectId + " and courseId " + courseId);}
     }
 }

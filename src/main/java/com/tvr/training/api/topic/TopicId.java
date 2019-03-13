@@ -2,33 +2,28 @@ package com.tvr.training.api.topic;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 import com.tvr.training.api.subject.SubjectId;
 
 @Embeddable
 public class TopicId implements Serializable {
- 
-	 private SubjectId subjectId;
-	 private Long topicId;
- 
-	
+
+    @Column(name = "TopicID")
+    private Long topicId;
+
+    @Column(name = "SubjectID")
+    private SubjectId subjectId;
     
     public TopicId() {
+    	
     }
- 
-    public TopicId(SubjectId subjectId, Long topicId) {
-        this.topicId = topicId;
-        this.subjectId = subjectId;
+    
+    public TopicId(Long courseId, Long subjectId, Long topicId) {
+    	this.subjectId = new SubjectId(courseId,subjectId);
+    	this.topicId = topicId;
     }
-
-	public SubjectId getSubjectId() {
-		return subjectId;
-	}
-
-	public void setSubjectId(SubjectId subjectId) {
-		this.subjectId = subjectId;
-	}
 
 	public Long getTopicId() {
 		return topicId;
@@ -36,6 +31,14 @@ public class TopicId implements Serializable {
 
 	public void setTopicId(Long topicId) {
 		this.topicId = topicId;
+	}
+
+	public SubjectId getSubjectId() {
+		return subjectId;
+	}
+
+	public void setSubjectId(SubjectId subjectId) {
+		this.subjectId = subjectId;
 	}
 
 	@Override
@@ -68,5 +71,7 @@ public class TopicId implements Serializable {
 			return false;
 		return true;
 	}
- 
+    
+    
+
 }

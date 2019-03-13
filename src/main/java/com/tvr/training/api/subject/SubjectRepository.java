@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 
-public interface SubjectRepository extends JpaRepository<Subject, Long> {
+public interface SubjectRepository extends JpaRepository<Subject, SubjectId> {
 
 	List<Subject> findByCourseId(Long courseId);
 
-	Optional<Subject> findByIdAndCourseId(Long id, Long courseId);
+	Subject findByIdCourseIdAndIdSubjectId(Long courseId, Long subjectId);
 	
 }

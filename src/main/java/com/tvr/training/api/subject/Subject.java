@@ -1,45 +1,54 @@
 package com.tvr.training.api.subject;
 
-import com.fasterxml.jackson.annotation.*;
-import com.tvr.training.api.course.Course;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import com.tvr.training.api.course.Course;
+import com.tvr.training.api.topic.Topic;
 
 
 @Entity
 @Table(name = "subjects")
 public class Subject {
-    @EmbeddedId
-    private SubjectId id;
-
+	
+	@EmbeddedId
+	private SubjectId id;
+	
     @NotNull
     @Lob
     private String name;
     
     @NotNull
 	private String description;
-
-    @MapsId("courseId")
-    @JoinColumn(name = "course_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true)
-    @JsonProperty("course_id")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
+    @JoinColumn(name = "CourseID", insertable = false, updatable = false)
     private Course course;
+    
+    
+    @OneToMany(fetch = FetchType.EAGER,mappedBy="subject",cascade = CascadeType.ALL)
+    private Set<Topic> topics;
 
     public SubjectId getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(SubjectId id) {
-        this.id = id;
-    }
-    public String getName() {
+	public void setId(SubjectId id) {
+		this.id = id;
+	}
+
+	public String getName() {
 		return name;
 	}
 
@@ -63,5 +72,4 @@ public class Subject {
 		this.course = course;
 	}
 
-	
 }

@@ -1,32 +1,28 @@
 package com.tvr.training.api.subject;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.tvr.training.api.course.Course;
 
 @Embeddable
 public class SubjectId implements Serializable {
- 
-	 private Long courseId;
-	 private Long subjectId;
- 
-	
-    
-    public SubjectId() {
-    }
- 
-    public SubjectId(Long courseId, Long subjectId) {
-        this.courseId = courseId;
-        this.subjectId = subjectId;
-    }
 
+    @Column(name = "CourseID")
+    private Long courseId;
+
+    @Column(name = "SubjectID")
+    private Long subjectId;
+
+    public SubjectId() {
+    	
+    }
+    
+    public SubjectId(Long courseId, Long subjectId) {
+    	this.courseId = courseId;
+    	this.subjectId = subjectId;
+    }
+    
 	public Long getCourseId() {
 		return courseId;
 	}
@@ -73,7 +69,7 @@ public class SubjectId implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
- 
+
+    
+
 }
