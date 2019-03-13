@@ -13,7 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Table(name = "subjects")
 public class Subject {
-    @Id
+    @EmbeddedId
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
