@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tvr.training.api.subject.SubjectRepository;
 import com.tvr.training.api.exception.ResourceNotFoundException;
+import com.tvr.training.api.subject.SubjectId;
+import com.tvr.training.api.subject.SubjectRepository;
 
 @RestController
 public class TopicController {
@@ -43,10 +44,16 @@ public class TopicController {
 		return TopicRepository.findBySubjectId(subjectId);
 	}
 
-	@PostMapping("/subjects/{subjectId}/topics")
-	public Topic createTopic(@PathVariable(value = "subjectId") Long subjectId, @Valid @RequestBody Topic Topic) {
-		return subjectRepository.findById(subjectId).map(course -> {
-			Topic.setSubject(course);
+	@PostMapping("courses/{courseId}/subjects/{subjectId}/topics/{topicId}")
+	public Topic createTopic(
+			@PathVariable(value = "courseId") Long courseId, 
+			@PathVariable(value = "subjectId") Long subjectId, 
+			@PathVariable(value = "topicId") Long topicId, 
+			@Valid @RequestBody Topic Topic) {
+		return subjectRepository.findByIdAndCourseId(subjectId,courseId).map(subject -> {
+			TopicId topicIdentifier = new TopicId(new SubjectId(courseId,subjectId),topicId);
+			Topic.setId(topicIdentifier);
+			Topic.setSubject(subject);
 			return TopicRepository.save(Topic);
 		}).orElseThrow(() -> new ResourceNotFoundException("subjectId " + subjectId + " not found"));
 	}

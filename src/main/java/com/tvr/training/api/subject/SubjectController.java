@@ -43,11 +43,15 @@ public class SubjectController {
         return subjectRepository.findByCourseId(courseId);
     }
        
-    @PostMapping("/courses/{courseId}/subjects")
+    @PostMapping("/courses/{courseId}/subjects/{subjectId}")
     public Subject createSubject(@PathVariable (value = "courseId") Long courseId,
+    								@PathVariable (value = "subjectId") Long subjectId,
                                  @Valid @RequestBody Subject subject) {
         return courseRepository.findById(courseId).map(course -> {
+        	SubjectId subId = new SubjectId(courseId,subjectId);
+        	subject.setId(subId);
             subject.setCourse(course);
+          
             return subjectRepository.save(subject);
         }).orElseThrow(() -> new ResourceNotFoundException("courseId " + courseId + " not found"));
     }

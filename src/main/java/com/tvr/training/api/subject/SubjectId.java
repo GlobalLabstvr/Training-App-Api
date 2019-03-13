@@ -14,40 +14,66 @@ import com.tvr.training.api.course.Course;
 @Embeddable
 public class SubjectId implements Serializable {
  
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "course_id")
-    private Course course;
+	 private Long courseId;
+	 private Long subjectId;
  
-    @Column(name = "subject_id")
-    private Long subjectId;
- 
+	
+    
     public SubjectId() {
     }
  
-    public SubjectId(Course course, Long subjectId) {
-        this.course = course;
+    public SubjectId(Long courseId, Long subjectId) {
+        this.courseId = courseId;
         this.subjectId = subjectId;
     }
+
+	public Long getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(Long courseId) {
+		this.courseId = courseId;
+	}
+
+	public Long getSubjectId() {
+		return subjectId;
+	}
+
+	public void setSubjectId(Long subjectId) {
+		this.subjectId = subjectId;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((courseId == null) ? 0 : courseId.hashCode());
+		result = prime * result + ((subjectId == null) ? 0 : subjectId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SubjectId other = (SubjectId) obj;
+		if (courseId == null) {
+			if (other.courseId != null)
+				return false;
+		} else if (!courseId.equals(other.courseId))
+			return false;
+		if (subjectId == null) {
+			if (other.subjectId != null)
+				return false;
+		} else if (!subjectId.equals(other.subjectId))
+			return false;
+		return true;
+	}
+	
+	
  
-    public Course getCourse() {
-        return course;
-    }
- 
-    public Long getSubjectId() {
-        return subjectId;
-    }
- 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof SubjectId)) return false;
-        SubjectId that = (SubjectId) o;
-        return Objects.equals(getCourse(), that.getCourse()) &&
-                Objects.equals(getSubjectId(), that.getSubjectId());
-    }
- 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getCourse(), getSubjectId());
-    }
 }

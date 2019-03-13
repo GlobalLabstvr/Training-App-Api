@@ -14,29 +14,29 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "subjects")
 public class Subject {
     @EmbeddedId
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private SubjectId id;
 
     @NotNull
     @Lob
     private String name;
     
-
+    @NotNull
 	private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @MapsId("courseId")
     @JoinColumn(name = "course_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
     @JsonIdentityReference(alwaysAsId=true)
     @JsonProperty("course_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Course course;
 
-    public Long getId() {
+    public SubjectId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(SubjectId id) {
         this.id = id;
     }
     public String getName() {
@@ -55,12 +55,13 @@ public class Subject {
 		this.description = description;
 	}
 
+	public Course getCourse() {
+		return course;
+	}
 
-    public Course getCourse() {
-        return course;
-    }
+	public void setCourse(Course course) {
+		this.course = course;
+	}
 
-    public void setCourse(Course course) {
-        this.course = course;
-    }
+	
 }

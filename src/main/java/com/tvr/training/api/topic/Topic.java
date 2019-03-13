@@ -1,6 +1,7 @@
 package com.tvr.training.api.topic;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.tvr.training.api.subject.Subject;
+import com.tvr.training.api.subject.SubjectId;
 
 /**
  * Created by rajeevkumarsingh on 21/11/17.
@@ -20,9 +22,8 @@ import com.tvr.training.api.subject.Subject;
 @Entity
 @Table(name = "topics")
 public class Topic  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	 @EmbeddedId
+	 private TopicId id;
 
     @NotNull
     @Size(max = 100)
@@ -34,19 +35,21 @@ public class Topic  {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id", nullable = false)
+    @JoinColumn(
+            name = "subjectId",
+            referencedColumnName = "subject_id")
     private Subject subject;
    
 
-    public Long getId() {
-        return id;
-    }
+    public TopicId getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(TopicId id) {
+		this.id = id;
+	}
 
-    public String getName() {
+	public String getName() {
         return name;
     }
 
