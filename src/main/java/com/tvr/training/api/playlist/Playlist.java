@@ -58,6 +58,7 @@ public class Playlist  {
      
     @MapsId("topicId")
      @JoinColumns({
+    	 @JoinColumn(name="CourseID", referencedColumnName="CourseID"),
           @JoinColumn(name="SubjectID", referencedColumnName="SubjectID"),
          @JoinColumn(name="TopicID", referencedColumnName="TopicID")
      })

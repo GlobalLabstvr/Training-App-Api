@@ -13,7 +13,9 @@ import com.tvr.training.api.subject.SubjectId;
 
 public interface TopicRepository extends JpaRepository<Topic, TopicId> {
 
-	List<Topic> findBySubjectId(Long subjectId);
+	//List<Topic> findBySubjectId(Long subjectId);
+	
+	List<Topic> findByIdSubjectId(SubjectId subjectId);
 
 	Optional<Topic> findByIdTopicIdAndIdSubjectId(Long topicId,SubjectId subjectId);
 	

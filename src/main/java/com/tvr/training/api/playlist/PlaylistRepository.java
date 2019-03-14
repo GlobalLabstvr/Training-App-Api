@@ -16,12 +16,9 @@ import com.tvr.training.api.topic.TopicId;
 
 public interface PlaylistRepository extends JpaRepository<Playlist, PlaylistId> {
 
-	List<Playlist> findByTopicId(Long topicId);
+	List<Playlist> findByIdTopicId(TopicId topicId);
 
 	Optional<Playlist> findByIdTopicIdAndIdPlaylistId(
 			TopicId topicId, Long playlistId);
-
-	
-	
 }
 

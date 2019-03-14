@@ -32,6 +32,13 @@ public class TopicController {
 	public List<Topic> getAllTopics() {
 		return TopicRepository.findAll();
 	}
+	
+	@GetMapping("/courses/{courseId}/subjects/{subjectId}/topics")
+	public List<Topic> getTopicByCourseIdAndSubjectId(
+			@PathVariable(value = "courseId") Long courseId,
+			@PathVariable(value = "subjectId") Long subjectId) {
+		return TopicRepository.findByIdSubjectId(new SubjectId(courseId,subjectId));
+	}
 
 	@GetMapping("/courses/{courseId}/subjects/{subjectId}/topics/{topicId}")
 	public Optional<Topic> getTopics(
@@ -39,11 +46,6 @@ public class TopicController {
 			@PathVariable(value = "subjectId") Long subjectId,
 			@PathVariable(value = "topicId") Long topicId) {
 		return TopicRepository.findByIdTopicIdAndIdSubjectId(topicId, new SubjectId(courseId,subjectId));
-	}
-
-	@GetMapping("/subjects/{subjectId}/topics")
-	public List<Topic> getTopicsBySubjectId(@PathVariable(value = "subjectId") Long subjectId) {
-		return TopicRepository.findBySubjectId(subjectId);
 	}
 
 	@PostMapping("/courses/{courseId}/subjects/{subjectId}/topics/{topicId}")
@@ -57,7 +59,7 @@ public class TopicController {
 			TopicId id = new TopicId(courseId,subjectId,topicId);
 			Topic.setId(id);
 			Topic.setSubject(subject);
-			return Topic;
+			return TopicRepository.save(Topic);
 		}
 		else {
 			throw new ResourceNotFoundException("subjectId " + subjectId + " not found");

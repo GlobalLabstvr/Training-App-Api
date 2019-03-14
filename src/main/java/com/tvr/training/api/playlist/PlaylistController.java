@@ -45,9 +45,13 @@ public class PlaylistController {
 		return PlaylistRepository.findByIdTopicIdAndIdPlaylistId(new TopicId(courseId,subjectId,topicId), playlistId);
 	}
 
-	@GetMapping("/topics/{topicId}/playlists")
-	public List<Playlist> getPlaylistsByTopicId(@PathVariable(value = "playlistId") Long playlistId) {
-		return PlaylistRepository.findByTopicId(playlistId);
+	@GetMapping("/courses/{courseId}/subjects/{subjectId}/topics/{topicId}/playlists")
+	public List<Playlist> getPlaylistsByTopicId(
+			@PathVariable(value = "courseId") Long courseId,
+			@PathVariable(value = "subjectId") Long subjectId,
+			@PathVariable(value = "topicId") Long topicId
+			) {
+		return PlaylistRepository.findByIdTopicId(new TopicId(courseId,subjectId,topicId));
 	}
 
 	@PostMapping("/courses/{courseId}/subjects/{subjectId}/topics/{topicId}/playlists/{playlistId}")
@@ -58,12 +62,12 @@ public class PlaylistController {
 			@PathVariable(value = "playlistId") Long playlistId, 
 			
 			@Valid @RequestBody Playlist playlist) {
-			Topic topic = TopicRepository.findByIdTopicIdAndIdSubjectId(topicId,
+			Optional<Topic> topic = TopicRepository.findByIdTopicIdAndIdSubjectId(topicId,
 					new SubjectId(courseId,subjectId));
 		if(topic!=null) {
 			PlaylistId id = new PlaylistId(courseId,subjectId,topicId,playlistId);
 			playlist.setId(id);
-			playlist.setTopic(topic);
+			playlist.setTopic(topic.get());
 			return playlist;
 		}
 		else {
