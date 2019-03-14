@@ -1,13 +1,20 @@
 package com.tvr.training.api.playlist;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,7 +26,9 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.tvr.training.api.subject.Subject;
 import com.tvr.training.api.topic.Topic;
+import com.tvr.training.api.topic.TopicId;
 
 /**
  * Created by rajeevkumarsingh on 21/11/17.
@@ -27,10 +36,9 @@ import com.tvr.training.api.topic.Topic;
 @Entity
 @Table(name = "playlists")
 public class Playlist  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @EmbeddedId
+    private PlaylistId id;
+    
     @NotNull
     @Size(max = 100)
     @Column(unique = true)
@@ -45,20 +53,22 @@ public class Playlist  {
     private String url;
     
     
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "topic_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true)
-    @JsonProperty("topic_id")
-    private Topic topic;
     
+     
+     
+    @MapsId("topicId")
+     @JoinColumns({
+          @JoinColumn(name="SubjectID", referencedColumnName="SubjectID"),
+         @JoinColumn(name="TopicID", referencedColumnName="TopicID")
+     })
+     @ManyToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
+     private Topic topic; 
 
-	public Long getId() {
+    public PlaylistId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(PlaylistId id) {
         this.id = id;
     }
 
