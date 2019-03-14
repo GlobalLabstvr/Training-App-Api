@@ -68,6 +68,7 @@ public class PlaylistController {
 			PlaylistId id = new PlaylistId(courseId,subjectId,topicId,playlistId);
 			playlist.setId(id);
 			playlist.setTopic(topic.get());
+			PlaylistRepository.save(playlist);
 			return playlist;
 		}
 		else {
